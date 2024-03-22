@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/data.dart';
 import 'package:flutter_application_1/pages/screen_send_token_password.dart';
 import 'package:flutter_application_1/pages/screen_sign_up.dart';
 import 'package:flutter_application_1/pages/screen_qr_code.dart';
-import 'package:flutter_application_1/components/text_input_login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,7 +13,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
+  final matController = TextEditingController();
+  final senController = TextEditingController();
+
   bool isVisible = true;
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                 child: TextFormField(
+                  controller: matController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "usuário é requerido";
@@ -78,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                 child: TextFormField(
+                  controller: senController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "senha é requerido";
@@ -159,11 +166,13 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     )),
                     onPressed: () {
+                      InheritedUser.of(context).updateUser(matController.text);
                       if (formKey.currentState!.validate()) {
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const QrCodeSession()));
+                                builder: (context) => QrCodeSession(userMat: matController.text)));
                       }
                     },
                     child: const Text(

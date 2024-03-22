@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/data.dart';
 import 'package:flutter_application_1/pages/screen_cancellation.dart';
 import 'package:flutter_application_1/pages/screen_change_shift.dart';
 import 'package:flutter_application_1/pages/screen_change_password.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+
 
 class QrCodeSession extends StatefulWidget {
-  const QrCodeSession({Key? key}) : super(key: key);
+  const QrCodeSession({Key? key, required this.userMat}) : super(key: key);
+
+  final String userMat;
 
   @override
   // ignore: no_logic_in_create_state
@@ -14,10 +19,13 @@ class QrCodeSession extends StatefulWidget {
 // ignore: empty_constructor_bodies,
 @override
 class _QrCodeSessionState extends State<QrCodeSession> {
+  // ignore: prefer_final_fields
   int _selectedIndex = 2;
+
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -139,14 +147,16 @@ class _QrCodeSessionState extends State<QrCodeSession> {
                                   softWrap: true),
                             ),
                             Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                                child: Image.asset(
-                                    "assets/0_zPG9dqz508rmRR70 1 (2).png",
-                                    fit: BoxFit.cover),
+                              child: Center(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                                  child: QrImageView(data:widget.userMat,
+                                  version:QrVersions.auto,size:280,
+                                ),
                               ),
-                            ),
+                              ),
+                            )
                           ]),
                     )),
               ),
@@ -178,6 +188,7 @@ class _QrCodeSessionState extends State<QrCodeSession> {
             setState(() {
               switch (index) {
                 case 0:
+                
                   Navigator.push(
                       context,
                       MaterialPageRoute(
